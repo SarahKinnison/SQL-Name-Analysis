@@ -1,0 +1,66 @@
+# SQL-Name-Analysis
+This data uses public data from Google Big Query Public data. The table can be located at 'bigquery-public-data.usa_names.usa_1910_current'.
+
+The code can be found at https://console.cloud.google.com/bigquery?sq=575189974521:32f0aa382b3c4c658b1170b1f82da73c
+
+Here is a copy of the current code.
+##Previewing the data to make sure it opens correctly
+SELECT * 
+FROM `bigquery-public-data.usa_names.usa_1910_current`
+LIMIT 1000
+
+##Most popular name by state
+SELECT a.name, a.number, a.state, a.year
+FROM `bigquery-public-data.usa_names.usa_1910_current` a
+WHERE a.number =  (SELECT max(b.number) 
+                  FROM `bigquery-public-data.usa_names.usa_1910_current` b
+                  WHERE b.state = a.state)
+ORDER BY state
+
+##Top 10 Female names
+SELECT name, sum(number)AS name_total
+FROM `bigquery-public-data.usa_names.usa_1910_current` 
+WHERE gender = "F"
+GROUP BY name
+ORDER BY name_total DESC
+LIMIT 10
+
+##Top 10 Male names
+SELECT name, sum(number)AS name_total
+FROM `bigquery-public-data.usa_names.usa_1910_current` 
+WHERE gender = "M"
+GROUP BY name
+ORDER BY name_total DESC
+LIMIT 10
+
+##Top 10 Female names 4 or less letters.
+SELECT name, length(name) AS name_length, sum(number)AS name_total
+FROM `bigquery-public-data.usa_names.usa_1910_current` 
+WHERE gender = "F" AND length(name)<=4
+GROUP BY name
+ORDER BY name_total DESC
+LIMIT 10
+
+##Top 10 Male names 4 or less letters.
+SELECT name, length(name) AS name_length, sum(number)AS name_total
+FROM `bigquery-public-data.usa_names.usa_1910_current` 
+WHERE gender = "M" AND length(name)<=4
+GROUP BY name
+ORDER BY name_total DESC
+LIMIT 10
+
+##Top 10 Female names 10 letters or more.
+SELECT name, length(name) AS name_length, sum(number)AS name_total
+FROM `bigquery-public-data.usa_names.usa_1910_current` 
+WHERE gender = "F" AND length(name)>=10
+GROUP BY name
+ORDER BY name_total DESC
+LIMIT 10
+
+##Top 10 Male names 10 letters or more.
+SELECT name, length(name) AS name_length, sum(number)AS name_total
+FROM `bigquery-public-data.usa_names.usa_1910_current` 
+WHERE gender = "M" AND length(name)>=10
+GROUP BY name
+ORDER BY name_total DESC
+LIMIT 10
