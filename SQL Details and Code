@@ -4,6 +4,7 @@ This data uses public data from Google Big Query Public data. The table can be l
 The code can be found at https://console.cloud.google.com/bigquery?sq=575189974521:32f0aa382b3c4c658b1170b1f82da73c
 
 Here is a copy of the current code.
+
 ##Previewing the data to make sure it opens correctly
 SELECT * 
 FROM `bigquery-public-data.usa_names.usa_1910_current`
